@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="7">
+      <Unit0>
+        <Filename Value="KodPortable.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="64"/>
+        <CursorPos Y="74"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="unit1.pas"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="44" Y="16"/>
+        <UsageCount Value="20"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-base\src\inifiles.pp"/>
+        <UnitName Value="IniFiles"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1279"/>
+        <CursorPos X="11" Y="1296"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\filutilh.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="197"/>
+        <CursorPos X="10" Y="205"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-process\src\processbody.inc"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="103"/>
+        <CursorPos X="17" Y="124"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\packages\fcl-process\src\process.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7"/>
+        <CursorPos X="32" Y="27"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+    </Units>
+    <JumpHistory Count="13" HistoryIndex="12">
+      <Position1>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="11"/>
+      </Position1>
+      <Position2>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="6" Column="11"/>
+      </Position2>
+      <Position3>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="59" Column="84" TopLine="28"/>
+      </Position3>
+      <Position4>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="56" Column="15" TopLine="27"/>
+      </Position4>
+      <Position5>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="7" Column="10"/>
+      </Position5>
+      <Position6>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="75" Column="11" TopLine="42"/>
+      </Position6>
+      <Position7>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="64" Column="11" TopLine="42"/>
+      </Position7>
+      <Position8>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="33" TopLine="3"/>
+      </Position8>
+      <Position9>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="81" Column="22" TopLine="51"/>
+      </Position9>
+      <Position10>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="97" Column="28" TopLine="63"/>
+      </Position10>
+      <Position11>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="88" Column="21" TopLine="60"/>
+      </Position11>
+      <Position12>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="72" Column="28" TopLine="57"/>
+      </Position12>
+      <Position13>
+        <Filename Value="KodPortable.lpr"/>
+        <Caret Line="83" Column="46" TopLine="64"/>
+      </Position13>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
