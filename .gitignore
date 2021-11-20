@@ -1,0 +1,10 @@
+httpd.pid
+
+
+*.bak
+*.dcu
+*.log
+
+
+lib/
+backup/
