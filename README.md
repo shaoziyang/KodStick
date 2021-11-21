@@ -1,8 +1,8 @@
 # KodStick
 
-小巧方便的个人随身网盘系统，在 U盘、移动硬盘上运行的 KodExplorer / KodBox，甚至可以作为便携版软件使用。
+小巧方便的个人随身网盘系统，在 U盘、移动硬盘上运行的 [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox)，甚至可以作为便携版软件使用。
 
-Run KodExplorer / KodBox in USB stick, mobile disk, net drive, Compact and convenient personal portable network disk system, even as a portable app.
+Run [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox) in USB stick, mobile disk, net drive, Compact and convenient personal portable network disk system, even as a portable app.
 
 
 [English](#English) | [中文](#中文)
