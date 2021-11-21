@@ -73,6 +73,12 @@ apache服务器执行文件名，为了避免和其它apache程序混淆，可�
 
 ## 常见问题：
 
+- 怎样安装 KodExplorer / KodBox  
+从 github 或 gitee 上下载 [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox) 的源码，复制到 home 文件夹中
+
+- 怎样升级 KodExplorer / KodBox  
+运行服务器后，以管理员方式登录，在系统管理中进行升级。
+
 - 是否可以使用 php8  
 如果只使用KodExplorer，可以更新到 php8。如果需要使用 kodbox，暂时只能使用 php7，因为目前 kodbox 不兼容 php8（可能以后某个版本的 kodbox 会解决这个问题）。
 
@@ -157,6 +163,12 @@ Parameters of the browser in server mode.
 
 
 ## FAQ
+
+- How to install KodExplorer / KodBox  
+Download [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox) source file github, then copy to `home` folder.
+
+- How to upgrade KodExplorer / KodBox  
+Run KodStick, login as administrator to upgrade in system management.
 
 - Can I use php8  
 If you only use kodexplorer, you can upgrade to php8. If you need to use kodbox, you can only use php7, because kodbox is not compatible with php8 (it may be work for a later version of kodbox).
