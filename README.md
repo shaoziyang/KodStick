@@ -79,9 +79,6 @@ apache服务器执行文件名，为了避免和其它apache程序混淆，可�
 - 怎样升级 KodExplorer / KodBox  
 运行服务器后，以管理员方式登录，在系统管理中进行升级。
 
-- 是否可以使用 php8  
-如果只使用KodExplorer，可以更新到 php8。如果需要使用 kodbox，暂时只能使用 php7，因为目前 kodbox 不兼容 php8（可能以后某个版本的 kodbox 会解决这个问题）。
-
 - 是否可以在 kodbox 中使用 mysql 数据库  
 KodStick 的主要目标是简单小巧、容易使用的个人随身系统，而不是高性能大数据量的专业服务器系统，因此 sqlite 已经足够了。
 
@@ -91,7 +88,7 @@ KodStick 的主要目标是简单小巧、容易使用的个人随身系统，�
 
 ## 使用技巧：
 
-- 使用固定驱动器名访问软件所在的磁盘（驱动器名称可以在windows的“磁盘管理”中修改）。
+- 使用固定驱动器号访问软件所在的磁盘（驱动器号可以在windows的“磁盘管理”中修改）。
 - 可以使用 mklink / junction / doublecmd 等软件创建目录符号链接到 KodExplorer 的用户目录（如 **公共目录**: `data\Group\public\home\`，**用户目录**: `data\User\xxxx\home\`），方便文件访问和管理。
 
 
@@ -169,9 +166,6 @@ Download [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](http
 
 - How to upgrade KodExplorer / KodBox  
 Run KodStick, login as administrator to upgrade in system management.
-
-- Can I use php8  
-If you only use kodexplorer, you can upgrade to php8. If you need to use kodbox, you can only use php7, because kodbox is not compatible with php8 (it may be work for a later version of kodbox).
 
 - Can I use MySQL database in kodbox  
 The main goal of KodStick is a simple, compact and easy-to-use personal portable system, rather than a professional high-performance server system with a large amount of data, so SQLite is enough.
