@@ -44,7 +44,8 @@ procedure TfrmServerLog.btnUpdateClick(Sender: TObject);
 var
   s: ansistring;
 begin
-  RunCommand('cmd.exe /c copy/y "' + apache_log + '" "' + apache_log + '.1"', [], s);
+  RunCommand('cmd.exe /c copy/y "' + apache_log + '" "' + apache_log +
+    '.1"', [], s, [], swoHIDE);
 
   edtLog.Clear;
   if FileExists(apache_log + '.1') then

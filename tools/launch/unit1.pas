@@ -6,11 +6,12 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Menus, ShellApi, IniFiles, DateUtils, Process, FileUtil,
-  unit2;
+  Menus, ShellApi, IniFiles, DateUtils, Process, FileUtil, fileinfo,
+  winpeimagereader, unit2;
 
 const
   APP_NAME = 'KodStick Apache MicroServer 2.0';
+  BUILD = '2023.03.05';
 
 type
 
@@ -25,6 +26,9 @@ type
   TfrmMain = class(TForm)
     ilPm: TImageList;
     ilTray: TImageList;
+    N5: TMenuItem;
+    pmUserName: TMenuItem;
+    pmTotal: TMenuItem;
     pmPhpVer: TMenuItem;
     pmKodStick: TMenuItem;
     pmLog: TMenuItem;
@@ -51,10 +55,13 @@ type
     procedure pmLogClick(Sender: TObject);
     procedure pmRestartServerClick(Sender: TObject);
     procedure pmTrayPopup(Sender: TObject);
+    procedure pmUserNameClick(Sender: TObject);
     procedure tmrTimer(Sender: TObject);
   private
+    procedure updateDat;
 
   public
+    function SecondToRuntime(T: int64): string;
 
   end;
 
@@ -69,6 +76,8 @@ var
   browser, param: string;
   proc_apache: TProcess;
   TimeStart: TDateTime;
+  TotalRuntime: int64;
+  RunCnt: integer;
 
 implementation
 
@@ -130,7 +139,7 @@ end;
 
 procedure TfrmMain.pmKodStickClick(Sender: TObject);
 begin
-
+  ShellExecute(Handle, 'open', PChar(path + 'server'), nil, nil, 1);
 end;
 
 procedure TfrmMain.pmLogClick(Sender: TObject);
@@ -148,29 +157,19 @@ end;
 procedure TfrmMain.pmTrayPopup(Sender: TObject);
 var
   T: int64;
-  year, month, day, hour, min, sec, ms: word;
-  ts: string;
+
 begin
-
   T := SecondsBetween(Now(), TimeStart);
-  day := T div (24 * 3600);
-  T := T mod (24 * 3600);
-  hour := T div 3600;
-  T := T mod 3600;
-  min := T div 60;
-  sec := T mod 60;
 
-  ts := '';
+  pmRun.Caption := '- Continuous runtime: ' + SecondToRuntime(T);
+  if pmTotal.Visible then
+    pmTotal.Caption := '- Total runtime [' + IntToStr(RunCnt) + ']: ' +
+      SecondToRuntime(TotalRuntime + T);
+end;
 
-  if (day > 0) then
-    ts := ts + Format('%d day ', [day]);
-  if (hour > 0) then
-    ts := ts + Format('%d hour ', [hour]);
-  if (min > 0) then
-    ts := ts + Format('%d min ', [min]);
-  if (sec > 0) then
-    ts := ts + Format('%d sec', [sec]);
-  pmRun.Caption := 'Running: ' + ts;
+procedure TfrmMain.pmUserNameClick(Sender: TObject);
+begin
+  ShellExecute(Handle, 'open', PChar(path), nil, nil, 1);
 end;
 
 procedure TfrmMain.tmrTimer(Sender: TObject);
@@ -194,6 +193,55 @@ begin
     end;
   end;
 
+  if pmTotal.Visible then
+  begin
+    tmr.Tag := tmr.Tag + 1;
+    if tmr.Tag > 24 then
+    begin
+      tmr.tag := 0;
+      updateDat;
+    end;
+  end;
+end;
+
+procedure TfrmMain.updateDat;
+begin
+  try
+    if pmTotal.Visible then
+    begin
+      ini.WriteInt64('option', 'TotalRuntime', TotalRuntime +
+        SecondsBetween(Now(), TimeStart));
+      ini.UpdateFile;
+    end;
+
+  except
+
+  end;
+end;
+
+function TfrmMain.SecondToRuntime(T: int64): string;
+var
+  year, month, day, hour, min, sec, ms: word;
+  ts: string;
+begin
+  day := T div (24 * 3600);
+  T := T mod (24 * 3600);
+  hour := T div 3600;
+  T := T mod 3600;
+  min := T div 60;
+  sec := T mod 60;
+
+  ts := '';
+
+  if (day > 0) then
+    ts := ts + Format('%d day ', [day]);
+  if (hour > 0) then
+    ts := ts + Format('%d hour ', [hour]);
+  if (min > 0) then
+    ts := ts + Format('%d min ', [min]);
+  if (sec > 0) then
+    ts := ts + Format('%d sec', [sec]);
+  Result := ts;
 end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -205,6 +253,14 @@ procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   proc_apache.Terminate(0);
   proc_apache.Free;
+
+  updateDat;
+
+  try
+    ini.Free;
+  except
+
+  end;
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -215,7 +271,7 @@ var
 begin
   TimeStart := Now();
   path := ExtractFilePath(ParamStr(0));
-  pmKodStick.Caption:=APP_NAME;
+  pmKodStick.Caption := APP_NAME;
 
   // get server port from file 'httpd.conf'
   port := '80';
@@ -253,8 +309,23 @@ begin
   max_logfile := ini.ReadInteger('option', 'max_logfile', 1000000);
   APACHE_NAME := ini.ReadString('option', 'apache_filename', '');
   apache_log := path + 'server\logs\error.log';
+  TotalRuntime := ini.ReadInt64('option', 'TotalRuntime', 0);
+  RunCnt := ini.ReadInteger('option', 'RunCnt', 1);
   tray.Tag := ini.ReadInteger('option', 'style', 1);
-  ini.Free;
+  pmUserName.Caption := ini.ReadString('option', 'username', 'My KodStick');
+  tray.Hint := 'KodStick ' + BUILD;
+
+  try
+    RunCnt := RunCnt + 1;
+    ini.WriteInteger('option', 'RunCnt', RunCnt);
+    ini.WriteInt64('option', 'TotalRuntime', TotalRuntime);
+    ini.UpdateFile;
+
+    pmTotal.Visible := True;
+
+  except
+
+  end;
 
   if tray.Tag < 1 then
     tray.Tag := 1;
@@ -276,7 +347,8 @@ begin
   end;
 
   pmApache.Caption := 'Apache: [' + APACHE_NAME + ':' + port + ']';
-  pmRun.Caption := 'Run: ';
+  pmRun.Caption := '  Run: ';
+
   if browser <> '' then
     pmBrowser.Caption := 'Launch <' + browser + '>';
 
