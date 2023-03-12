@@ -383,7 +383,13 @@ begin
     Application.Terminate;
   end;
 
-  pmApache.Caption := 'Apache: [' + APACHE_NAME + ':' + port + ']';
+  try
+    s:=GetDLLVer(apache_file);
+  except
+    s:='';
+  end;
+
+  pmApache.Caption := 'Apache: '+ s+' [' + APACHE_NAME + ':' + port + ']';
   pmRun.Caption := '  Run: ';
 
   if browser <> '' then
