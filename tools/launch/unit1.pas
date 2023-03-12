@@ -72,6 +72,7 @@ var
   frmMain: TfrmMain;
   ini: TIniFile;
   path, port: string;
+  server_path: string;
   apache_file: string;
   apache_log: string;
   APACHE_NAME: string;
@@ -142,7 +143,7 @@ end;
 
 procedure TfrmMain.pmKodStickClick(Sender: TObject);
 begin
-  ShellExecute(Handle, 'open', PChar(path + 'server'), nil, nil, 1);
+  ShellExecute(Handle, 'open', PChar(path + server_path), nil, nil, 1);
 end;
 
 procedure TfrmMain.pmLogClick(Sender: TObject);
@@ -159,7 +160,7 @@ end;
 
 procedure TfrmMain.pmTrayIcon_1Click(Sender: TObject);
 begin
-  tray.Tag:=TMenuItem(Sender).ImageIndex;
+  tray.Tag := TMenuItem(Sender).ImageIndex;
   ilTray.Tag := tray.Tag;
   ilTray.GetIcon(ilTray.Tag, tray.Icon);
   ini.WriteInteger('option', 'style', tray.Tag);
@@ -281,41 +282,12 @@ var
   s: string;
   f: TextFile;
   sr: TSearchRec;
-  trayN,i:integer;
-  mi:TMenuItem;
+  trayN, i: integer;
+  mi: TMenuItem;
 begin
   TimeStart := Now();
   path := ExtractFilePath(ParamStr(0));
   pmKodStick.Caption := APP_NAME;
-
-  // get server port from file 'httpd.conf'
-  port := '80';
-  try
-    AssignFile(f, path + 'server\conf\httpd.conf');
-    Reset(f);
-    while not EOF(f) do
-    begin
-      readln(f, s);
-      if StrLIComp(PChar(s), PChar('Listen '), 7) = 0 then
-      begin
-        Delete(s, 1, 7);
-        port := s;
-        break;
-      end;
-    end;
-  except
-
-  end;
-  CloseFile(f);
-
-  if FindFirst(path + 'server\php*ts.dll', faAnyFile, sr) = 0 then
-  begin
-    try
-      pmPhpVer.Caption := 'PHP: ' + GetDLLVer(path + 'server\' + sr.Name);
-    except
-
-    end;
-  end;
 
   // read config.ini
   ini := TIniFile.Create(path + 'config.ini');
@@ -323,7 +295,11 @@ begin
   param := ini.ReadString('option', 'param', '');
   max_logfile := ini.ReadInteger('option', 'max_logfile', 1000000);
   APACHE_NAME := ini.ReadString('option', 'apache_filename', '');
-  apache_log := path + 'server\logs\error.log';
+  server_path := ini.ReadString('option', 'server_path', 'server');
+  if (server_path[Length(server_path)] = '\') or
+    (server_path[Length(server_path)] = '/') then
+    Delete(server_path, length(server_path), 1);
+  apache_log := path + server_path + '\logs\error.log';
   TotalRuntime := ini.ReadInt64('option', 'TotalRuntime', 0);
   RunCnt := ini.ReadInteger('option', 'RunCnt', 1);
   tray.Tag := ini.ReadInteger('option', 'style', 1);
@@ -342,24 +318,53 @@ begin
 
   end;
 
+  // get server port from file 'httpd.conf'
+  port := '80';
+  try
+    AssignFile(f, path + server_path + '\conf\httpd.conf');
+    Reset(f);
+    while not EOF(f) do
+    begin
+      readln(f, s);
+      if StrLIComp(PChar(s), PChar('Listen '), 7) = 0 then
+      begin
+        Delete(s, 1, 7);
+        port := s;
+        break;
+      end;
+    end;
+  except
+
+  end;
+  CloseFile(f);
+
+  if FindFirst(path + server_path + '\php*ts.dll', faAnyFile, sr) = 0 then
+  begin
+    try
+      pmPhpVer.Caption := 'PHP: ' + GetDLLVer(path + server_path + '\' + sr.Name);
+    except
+
+    end;
+  end;
+
   if tray.Tag < 1 then
     tray.Tag := 1;
   if tray.Tag >= ilTray.Count then
     tray.Tag := ilTray.Count - 1;
 
-  trayN:=ilTray.Count;
+  trayN := ilTray.Count;
 
-  for i:=1 to trayN-1 do
+  for i := 1 to trayN - 1 do
   begin
-    mi:=TMenuItem.Create(pmTrayIcon);
-    mi.Caption:=Inttostr(i)+'.';
-    mi.ImageIndex:=i;
-    mi.RadioItem:=True;
-    mi.GroupIndex:=100;
-    mi.AutoCheck:=True;
-    if i= tray.Tag then
-      mi.Checked:=True;
-    mi.OnClick:=@pmTrayIcon_1Click;
+    mi := TMenuItem.Create(pmTrayIcon);
+    mi.Caption := IntToStr(i) + '.';
+    mi.ImageIndex := i;
+    mi.RadioItem := True;
+    mi.GroupIndex := 100;
+    mi.AutoCheck := True;
+    if i = tray.Tag then
+      mi.Checked := True;
+    mi.OnClick := @pmTrayIcon_1Click;
     pmTrayIcon.Add(mi);
   end;
 
@@ -371,7 +376,7 @@ begin
   end;
 
   // check apach server file
-  apache_file := path + 'server\' + APACHE_NAME;
+  apache_file := path + server_path + '\' + APACHE_NAME;
   if not FileExists(apache_file) then
   begin
     ShowMessage('Apache file not found!');
@@ -386,8 +391,8 @@ begin
 
   // check log file size
   try
-    if GetFileSize(path + 'server\logs\error.log') > max_logfile then
-      DeleteFile(path + 'server\logs\error.log');
+    if GetFileSize(path + server_path + '\logs\error.log') > max_logfile then
+      DeleteFile(path + server_path + '\logs\error.log');
   except
 
   end;
@@ -395,7 +400,7 @@ begin
   // set apache process paramters
   proc_apache := TProcess.Create(nil);
   proc_apache.Executable := apache_file;
-  proc_apache.CurrentDirectory := path + 'server';
+  proc_apache.CurrentDirectory := path + server_path;
   proc_apache.Options := proc_apache.Options + [poNoConsole];
 end;
 
