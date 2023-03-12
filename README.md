@@ -1,15 +1,15 @@
 # KodStick
 
-小巧方便的个人随身网盘系统，在 U盘、移动硬盘上运行的 [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox)，甚至可以作为便携版软件使用。
+
+<a href="#English">English</a> | <a href="#中文">中文</a>
 
 Run [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox) in USB stick, mobile disk, net drive, Compact and convenient personal portable network disk system, even as a portable app.
 
-
-[English](#English) | [中文](#中文)
-
+小巧方便的个人随身网盘系统，在 U盘、移动硬盘上运行的 [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://github.com/kalcaddle/kodbox)，甚至可以作为便携版软件使用。
 
 
-# 中文  
+
+# <a name="中文">中文</a>  
 
 随身（便携）网盘系统
 
@@ -26,8 +26,10 @@ Run [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://g
 
 ## 服务器软件版本
 
-- Apache: 2.4.51, x64
-- PHP: 7.4.25, x64 Thread Safe
+- [Apache](https://www.apachehaus.com/cgi-bin/download.plx): 2.4.51, x64
+- [PHP](https://www.php.net/downloads): 
+    - 7.4.25, x64 Thread Safe
+    - 8.2.3, x64 Thread Safe
 
 ## 服务器配置
 
@@ -52,11 +54,14 @@ KodStick 的配置参数
 - max_logfile  
 apache 服务器日志文件最大大小
 
+- server_path
+服务器的目录名，可以通过指定不同目录名在不同版本服务器之间快速切换
+
 - apache_filename  
 apache服务器执行文件名，为了避免和其它apache程序混淆，可以修改为其它名称
 
 - style  
-系统区图标样式，范围是 1-5
+系统区图标样式，范围是 1-16
 
 - PortableBrowser  
 指定便携模式浏览器，推荐使用 [Firefox 便携版](https://portableapps.com/apps/internet/firefox_portable) 或 [waterfox portable 便携版](https://github.com/portapps/waterfox-portable)。
@@ -99,7 +104,7 @@ KodStick 的主要目标是简单小巧、容易使用的个人随身系统，�
 
 ---
   
-# English  
+# <a name="English">English</a>  
 
 ## Feather
 
@@ -114,8 +119,11 @@ KodStick 的主要目标是简单小巧、容易使用的个人随身系统，�
 
 ## Server software version
 
-- Apache: 2.4.51, x64
-- PHP: 7.4.25, x64 Thread Safe
+- [Apache](https://www.apachehaus.com/cgi-bin/download.plx): 2.4.51, x64
+- [PHP](https://www.php.net/downloads): 
+    - 7.4.25, x64 Thread Safe
+    - 8.2.3, x64 Thread Safe
+
 
 ## Config
 
@@ -140,11 +148,14 @@ Configuration for KodStick
 - max_logfile  
 Maximum server log file size for apache.
 
+- server_path
+The directory name of the server, you can quickly switch between servers by specifying different directory names.
+
 - apache_filename  
 The name of the Apache server execution file. It can be rename to avoid confusion with other Apache program.
 
 - style  
-Tray icon style, range is 1-5.
+Tray icon style, range is 1-16.
 
 - PortableBrowser  
 Specify the browser in portable mode, [Firefox portable](https://portableapps.com/apps/internet/firefox_portable) or [waterfox portable](https://github.com/portapps/waterfox-portable) version is recommended.
