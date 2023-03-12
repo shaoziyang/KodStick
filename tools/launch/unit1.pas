@@ -26,6 +26,8 @@ type
   TfrmMain = class(TForm)
     ilPm: TImageList;
     ilTray: TImageList;
+    pmTrayIcon_1: TMenuItem;
+    pmTrayIcon: TMenuItem;
     N5: TMenuItem;
     pmUserName: TMenuItem;
     pmTotal: TMenuItem;
@@ -54,6 +56,7 @@ type
     procedure pmKodStickClick(Sender: TObject);
     procedure pmLogClick(Sender: TObject);
     procedure pmRestartServerClick(Sender: TObject);
+    procedure pmTrayIcon_1Click(Sender: TObject);
     procedure pmTrayPopup(Sender: TObject);
     procedure pmUserNameClick(Sender: TObject);
     procedure tmrTimer(Sender: TObject);
@@ -152,6 +155,16 @@ end;
 procedure TfrmMain.pmRestartServerClick(Sender: TObject);
 begin
   proc_apache.Terminate(0);
+end;
+
+procedure TfrmMain.pmTrayIcon_1Click(Sender: TObject);
+begin
+  tray.Tag:=TMenuItem(Sender).ImageIndex;
+  ilTray.Tag := tray.Tag;
+  ilTray.GetIcon(ilTray.Tag, tray.Icon);
+  ini.WriteInteger('option', 'style', tray.Tag);
+  if pmTotal.Visible then
+    ini.UpdateFile;
 end;
 
 procedure TfrmMain.pmTrayPopup(Sender: TObject);
@@ -268,6 +281,8 @@ var
   s: string;
   f: TextFile;
   sr: TSearchRec;
+  trayN,i:integer;
+  mi:TMenuItem;
 begin
   TimeStart := Now();
   path := ExtractFilePath(ParamStr(0));
@@ -331,6 +346,23 @@ begin
     tray.Tag := 1;
   if tray.Tag >= ilTray.Count then
     tray.Tag := ilTray.Count - 1;
+
+  trayN:=ilTray.Count;
+
+  for i:=1 to trayN-1 do
+  begin
+    mi:=TMenuItem.Create(pmTrayIcon);
+    mi.Caption:=Inttostr(i)+'.';
+    mi.ImageIndex:=i;
+    mi.RadioItem:=True;
+    mi.GroupIndex:=100;
+    mi.AutoCheck:=True;
+    if i= tray.Tag then
+      mi.Checked:=True;
+    mi.OnClick:=@pmTrayIcon_1Click;
+    pmTrayIcon.Add(mi);
+  end;
+
 
   if APACHE_NAME = '' then
   begin
