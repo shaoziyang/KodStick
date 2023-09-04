@@ -23,6 +23,9 @@ Run [KodExplorer](https://github.com/kalcaddle/KODExplorer) / [KodBox](https://g
 - 64 位服务器软件，支持大文件
 - 服务器软件可以升级
 
+## 代码编译
+
+程序使用开源的 [Lazarus](http://www.lazarus-ide.org/) 开发，请在官网下载并安装 Lazarus，然后打开工程文件就可以编译，无需安装其它组件。 
 
 ## 服务器软件版本
 
@@ -116,6 +119,9 @@ KodStick 的主要目标是简单小巧、容易使用的个人随身系统，�
 - 64 bit server software, support large files
 - The server software can be upgraded
 
+## Build
+
+The program develop with open-source [Lazarus](http://www.lazarus-ide.org/) , please download and install Lazarus on the official website, then open the project file to compile without installing any other components or packages.
 
 ## Server software version
 
