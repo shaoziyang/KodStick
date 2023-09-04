@@ -7,11 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   Menus, ShellApi, IniFiles, DateUtils, Process, FileUtil, fileinfo,
-  winpeimagereader, unit2;
+  winpeimagereader, Windows, jwatlhelp32, unit2;
 
 const
-  APP_NAME = 'KodStick Apache MicroServer 2.0';
-  BUILD = '2023.03.05';
+  APP_NAME = 'KodStick Apache MicroServer 2.1';
+  BUILD = '2023.09.04';
 
 type
 
@@ -117,6 +117,33 @@ begin
   finally
     FileVerInfo.Free;
   end;
+end;
+
+function KillProcess(const ExeName: string): integer;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+
+begin
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  Result := 0;
+
+  while integer(ContinueLoop) <> 0 do
+    begin
+    if ((UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) =
+      UpperCase(ExeName)) or (UpperCase(FProcessEntry32.szExeFile) =
+      UpperCase(ExeName))) then
+      begin
+      Inc(Result);
+      TerminateProcess(OpenProcess(Process_Terminate, False, FProcessEntry32.th32ProcessID), 0);
+      end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+    end;
+
+  CloseHandle(FSnapshotHandle);
 end;
 
 function GetFileSize(const FileName: string): longint;
@@ -267,6 +294,7 @@ procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   proc_apache.Terminate(0);
   proc_apache.Free;
+  KillProcess(APACHE_NAME);
 
   updateDat;
 
@@ -383,13 +411,7 @@ begin
     Application.Terminate;
   end;
 
-  try
-    s:=GetDLLVer(apache_file);
-  except
-    s:='';
-  end;
-
-  pmApache.Caption := 'Apache: '+ s+' [' + APACHE_NAME + ':' + port + ']';
+  pmApache.Caption := 'Apache: [' + APACHE_NAME + ':' + port + ']';
   pmRun.Caption := '  Run: ';
 
   if browser <> '' then
@@ -398,7 +420,7 @@ begin
   // check log file size
   try
     if GetFileSize(path + server_path + '\logs\error.log') > max_logfile then
-      DeleteFile(path + server_path + '\logs\error.log');
+      DeleteFile(PChar(path + server_path + '\logs\error.log'));
   except
 
   end;
